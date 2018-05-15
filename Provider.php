@@ -16,7 +16,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}.
      */
-    protected $scopes = [];
+    protected $scopes = ['user.favorites'];
     /**
      * set Open Id.
      *
@@ -46,12 +46,12 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getCodeFields($state = null)
     {
-      dd($state);
         return [
-            'appid'         => $this->clientId, 'redirect_uri' => $this->redirectUrl,
             'response_type' => 'code',
-            'scope'         => $this->formatScopes($this->scopes, $this->scopeSeparator),
-            'state'         => $state,
+            'client_id' => $this->clientId,
+            'redirect_uri' => $this->redirectUrl,
+            'scope' => $this->formatScopes($this->scopes, $this->scopeSeparator),
+            'state' => $state
         ];
     }
     /**
@@ -59,35 +59,31 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getTokenUrl()
     {
-        return 'https://api2.goodgame.ru/oauth/resource';
+        return 'https://api2.goodgame.ru/oauth';
     }
     /**
      * {@inheritdoc}.
      */
     protected function getUserByToken($token)
     {
-        if (in_array('snsapi_base', $this->scopes)) {
-            $user = ['openid' => $this->openId];
-        } else {
-            $response = $this->getHttpClient()->get('https://api2.goodgame.ru/oauth/resource', [
-                'query' => [
-                    'access_token' => $token
-                ],
-            ]);
-            $user = json_decode($response->getBody(), true);
-        }
-        return $user;
+        // По другому GG ругается
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://api2.goodgame.ru/info?access_token=' . urlencode($token));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        $user = json_decode($response, true);
+        return $user['user'];
     }
     /**
      * {@inheritdoc}.
      */
     protected function mapUserToObject(array $user)
     {
-      dd(user);
         return (new User())->setRaw($user)->map([
-            'id'       => $user['openid'],
-            'nickname' => isset($user['nickname']) ? $user['nickname'] : null,
-            'avatar'   => isset($user['headimgurl']) ? $user['headimgurl'] : null,
+            'id'       => $user['user_id'],
+            'nickname' => $user['username'],
+            'avatar'   => null,
             'name'     => null,
             'email'    => null,
         ]);
@@ -98,8 +94,11 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getTokenFields($code)
     {
         return [
-            'appid' => $this->clientId, 'secret' => $this->clientSecret,
-            'code'  => $code, 'grant_type' => 'authorization_code',
+            'redirect_uri' => $this->redirectUrl,
+            'client_id' => $this->clientId,
+            'client_secret' => $this->clientSecret,
+            'code' => $code,
+            'grant_type' => 'authorization_code'
         ];
     }
     /**
@@ -107,11 +106,13 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     public function getAccessTokenResponse($code)
     {
-        $response = $this->getHttpClient()->get($this->getTokenUrl(), [
-            'query' => $this->getTokenFields($code),
+
+        $response = $this->getHttpClient()->request('POST', $this->getTokenUrl(), [
+          'form_params' => $this->getTokenFields($code)
         ]);
+
         $this->credentialsResponseBody = json_decode($response->getBody(), true);
-        $this->openId = $this->credentialsResponseBody['openid'];
+        $this->openId = $this->credentialsResponseBody['access_token'];
         return $this->credentialsResponseBody;
     }
 }
