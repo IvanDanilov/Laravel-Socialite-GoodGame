@@ -21,9 +21,10 @@ protected $listen = [
 ]
 ```
 В файле .env введите данные для работы с GoodGame OAuth:
+```
 GOODGAME_KEY="Созданное вами ID приложения"
 GOODGAME_SECRET="Созданный вами ключ"
 GOODGAME_REDIRECT_URI="Страница для возврата (Ваш обработчик)"
-
+```
 # Больше информации
 Документация GoodGame: https://github.com/GoodGame/API/blob/master/Streams/v2/authentication.md
