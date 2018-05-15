@@ -5,14 +5,16 @@
 Установите расширение:
 `# composer require ivandanilov/laravel-socialite-goodgame`
 Зарегистрируйте расширение в файле **app/Providers/EventServiceProvider.php**:
-```protected $listen = [
+```
+protected $listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
         'SocialiteProviders\Twitter\TwitterExtendSocialite@handle'
     ],
 ];
 ```
 Добавьте конфигурацию в файл настроек **config/services.php**:
-```'goodgame' => [
+```
+'goodgame' => [
     'client_id' => env('GOODGAME_KEY'),
     'client_secret' => env('GOODGAME_SECRET'),
     'redirect' => env('GOODGAME_REDIRECT_URI'),
