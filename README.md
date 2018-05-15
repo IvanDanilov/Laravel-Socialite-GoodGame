@@ -3,7 +3,9 @@
 
 # Установка / Install
 Установите расширение:
+
 ```# composer require ivandanilov/laravel-socialite-goodgame```
+
 Зарегистрируйте расширение в файле **app/Providers/EventServiceProvider.php**:
 ```
 protected $listen = [
