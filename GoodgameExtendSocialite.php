@@ -1,5 +1,5 @@
 <?php
-namespace SocialiteProviders\Weixin;
+namespace IvanDanilov\LaravelSocialiteGoodgame;
 use SocialiteProviders\Manager\SocialiteWasCalled;
 class GoodgameExtendSocialite
 {
