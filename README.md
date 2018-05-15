@@ -10,7 +10,7 @@
 ```
 protected $listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
-        'SocialiteProviders\Twitter\TwitterExtendSocialite@handle'
+        'IvanDanilov\LaravelSocialiteGoodgame\GoodgameExtendSocialite@handle'
     ],
 ];
 ```
