@@ -4,13 +4,13 @@
 # Установка / Install
 Установите расширение:
 
-```# composer require ivandanilov/laravel-socialite-goodgame```
+```# composer require jsondeveloper/laravel-socialite-goodgame```
 
 Зарегистрируйте расширение в файле **app/Providers/EventServiceProvider.php**:
 ```
 protected $listen = [
     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
-        'IvanDanilov\LaravelSocialiteGoodgame\GoodgameExtendSocialite@handle'
+        'JsonDeveloper\LaravelSocialiteGoodgame\GoodgameExtendSocialite@handle'
     ],
 ];
 ```
