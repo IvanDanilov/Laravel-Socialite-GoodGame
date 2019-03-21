@@ -1,5 +1,5 @@
 <?php
-namespace IvanDanilov\LaravelSocialiteGoodgame;
+namespace JsonDeveloper\LaravelSocialiteGoodgame;
 use SocialiteProviders\Manager\SocialiteWasCalled;
 class GoodgameExtendSocialite
 {
