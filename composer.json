@@ -1,9 +1,9 @@
 {
-    "name": "ivandanilov/laravel-socialite-goodgame",
+    "name": "jsondeveloper/laravel-socialite-goodgame",
     "description": "GoodGame OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
     "authors": [{
-        "name": "Ivan Danilov",
+        "name": "Jonas Danilov",
         "email": "KyberID@yandex.ru"
     }],
     "require": {
@@ -12,7 +12,7 @@
     },
     "autoload": {
         "psr-4": {
-            "IvanDanilov\\LaravelSocialiteGoodgame\\": ""
+            "JsonDeveloper\\LaravelSocialiteGoodgame\\": ""
         }
     }
 }
